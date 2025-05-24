@@ -7,9 +7,10 @@
 
 ## Installation avec docker
 ### Version MYSQL
+
 ```bash
 git clone https://github.com/ClemLcs/Kubernetes_Eval.git
-cd gestion-produits/docker/mysql
+cd gestion-produits
 ```
 Placez un fichier .env à la racine du dossier `php/www` avec le contenu suivant :
 
@@ -23,11 +24,16 @@ DB_PASSWORD=userpassword
 ```
 Puis éxécuter la commande.
 ```bash
+cd docker/mysql
 docker compose up -d
 ```
 Connectez-vous à l'adresse http://localhost:8080/ pour accéder à l'application.
 
 ### Version Postgres
+```bash
+git clone https://github.com/ClemLcs/Kubernetes_Eval.git
+cd gestion-produits
+```
 Placez un fichier .env à la racine du dossier `php/www` avec le contenu suivant :
 ```ini
 DB_CONNECTION=pgsql
@@ -37,12 +43,9 @@ DB_DATABASE=gestion_produits
 DB_USERNAME=user
 DB_PASSWORD=userpassword
 ```
-```bash
-git clone https://github.com/ClemLcs/Kubernetes_Eval.git
-cd gestion-produits/docker/mysql
-```
 Puis éxécuter la commande.
 ```bash
+cd docker/mysql
 docker compose up -d
 ```
 Connectez-vous à l'adresse http://localhost:8080/ pour accéder à l'application.
