@@ -44,7 +44,10 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 
 # Copie les fichiers de l'application dans le conteneur
-COPY . /var/www/html
+COPY ../.. /var/www/html
+
+# Installe les dépendances
+RUN composer install
 
 # Définit les permissions appropriées
 RUN chown -R www-data:www-data /var/www/html

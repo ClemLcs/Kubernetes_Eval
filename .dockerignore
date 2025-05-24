@@ -2,6 +2,8 @@ vendor/
 node_modules/
 .git/
 .gitignore
-Dockerfile
-docker-compose.yml
+docker/mysql/Dockerfile
+docker/mysql/docker-compose.yml
+docker/postgres/Dockerfile
+docker/postgres/docker-compose.yml
 README.md
