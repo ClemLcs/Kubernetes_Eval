@@ -1,0 +1,5 @@
+apiVersion: v2
+name: gestion-des-produits
+version: 1.0.0
+description: Helm chart pour une application sur laquelle vous aurez à travailler permet de gérer de manière très simpliste des produits.
+type: application

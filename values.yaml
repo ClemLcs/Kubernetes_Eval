@@ -1,0 +1,38 @@
+image:
+  repository: gestion-des-produits
+  tag: latest
+  pullPolicy: IfNotPresent
+
+webserver:
+  replicas: 3
+  image: nginx:latest
+  port: 8080
+
+app:
+  replicas: 3
+  port: 5000
+
+mysql:
+  image: mysql:8.4
+  rootPassword: rootpass
+  user: user
+  password: userpass
+  database: mydb
+  persistence:
+    enabled: true
+    size: 1Gi
+    storageClass: longhorn
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations: {}
+  hosts:
+    - host: gestion-des-produits.locascio.fr
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - hosts:
+        - longhorn.locascio.fr
+      secretName: locascio.fr
