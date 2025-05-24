@@ -3,7 +3,15 @@
 ## Prérequis
 Cette application est compatible `PHP8` et a été testée avec une base de données `MySQL 8.4`.
 
-## Installation
+## Installation avec docker
+```bash
+git clone https://gl.avalone-fr.com/anthony/codepostal.git
+cd gestion-produits
+docker compose up -d
+```
+Connectez-vous à l'adresse http://localhost:8080/ pour accéder à l'application.
+
+## Installation sans docker
 - Copier les fichiers du dossier `www` dans un dossier accessible par le serveur Web.
 - Assurez vous que le dossier `uploads` est accessible en lecture et écriture par le serveur Web : `chmod 777 uploads`
 - Importez la base de données test à partir du dump SQL `database/gestion_produits.sql`.
