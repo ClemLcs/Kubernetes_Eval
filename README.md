@@ -10,6 +10,7 @@
 ## Déploiement de l'application
 Utilisez la commande suivante pour déployer l'application :
 ```bash
+helm dependency build
 helm install gestion-des-produits ./ -f values.yaml --namespace kubernetes-eval --create-namespace
 ```
 
