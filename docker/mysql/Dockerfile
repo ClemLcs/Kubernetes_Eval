@@ -1,8 +1,8 @@
 FROM php:8.2-fpm-alpine
 LABEL authors="Clement LO-CASCIO"
 
-# Installe les dépendances nécessaires
-RUN apk add --no-cache \
+# Mise à jour et installation des dépendances nécessaires
+RUN apk update && apk add --no-cache \
     bash \
     curl \
     libpng-dev \
@@ -37,23 +37,23 @@ RUN apk add --no-cache \
         gmp \
         gd
 
-# Installe Composer
+# Installation de Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Définit le répertoire de travail
+# Répertoire de travail
 WORKDIR /var/www/html
 
-# Copie les fichiers de l'application dans le conteneur
-COPY ../.. /var/www/html
+# Copie de l'application
+COPY php/www /var/www/html
 
-# Installe les dépendances
-RUN composer install
+# Installation des dépendances PHP
+RUN composer install --no-interaction --no-progress --prefer-dist
 
-# Définit les permissions appropriées
+# Permissions
 RUN chown -R www-data:www-data /var/www/html
 
-# Expose le port 9000 pour PHP-FPM
+# Port exposé
 EXPOSE 9000
 
-# Définit le point d'entrée
+# Commande de lancement
 CMD ["php-fpm"]

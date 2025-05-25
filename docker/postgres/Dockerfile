@@ -1,27 +1,41 @@
 FROM php:8.2-fpm-alpine
+LABEL authors="Clement LO-CASCIO"
 
-# Installation des dépendances nécessaires
-RUN apk add --no-cache \
+# Mise à jour et installation des dépendances nécessaires
+RUN apk update && apk add --no-cache \
     bash \
-    libpq-dev \
+    curl \
+    libpng-dev \
+    libjpeg-turbo-dev \
+    libwebp-dev \
+    libxpm-dev \
+    freetype-dev \
+    oniguruma-dev \
+    libzip-dev \
+    zip \
+    unzip \
     icu-dev \
     zlib-dev \
     libxml2-dev \
-    oniguruma-dev \
-    zip \
-    unzip \
-    git \
-    curl \
+    libmcrypt-dev \
+    gmp-dev \
+    && docker-php-ext-configure gd \
+        --with-freetype \
+        --with-jpeg \
+        --with-webp \
+        --with-xpm \
     && docker-php-ext-install -j$(nproc) \
-        pdo_pgsql \
-        pgsql \
-        intl \
+        pdo_mysql \
+        mysqli \
         mbstring \
         zip \
         exif \
         pcntl \
+        intl \
         bcmath \
-        opcache
+        opcache \
+        gmp \
+        gd
 
 # Installation de Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
@@ -29,11 +43,11 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # Définition du répertoire de travail
 WORKDIR /var/www/html
 
-# Copie des fichiers de l'application
-COPY . /var/www/html
+# Copie de l'application
+COPY php/www /var/www/html
 
-# Installe les dépendances
-RUN composer install
+# Installation des dépendances PHP
+RUN composer install --no-interaction --no-progress --prefer-dist
 
 # Définition des permissions appropriées
 RUN chown -R www-data:www-data /var/www/html
