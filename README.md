@@ -1,64 +1,48 @@
 # GESTION PRODUITS
 
 ## Prérequis
- * `PHP8`
- * [Composer](https://getcomposer.org/)
- * Base de données `MySQL ou Postgres`
+ * `Cluster Kubernetes fonctionnel`
+ * `kubectl installé : Outil en ligne de commande pour interagir avec Kubernetes. 
+ * `Helm installé` : Gestionnaire de packages pour Kubernetes.
+ * `Certifcat TLS valide` pour l'ingress controller
+ * `Accès aux repository Docker Hub` [cpxlcs/kubernetes-eval](https://hub.docker.com/repository/docker/cpxlcs/kubernetes-eval/general)
 
-## Installation avec docker
-### Version MYSQL
+## Déploiement de l'application
+Utilisez la commande suivante pour déployer l'application :
+```bash
+helm install gestion-des-produits ./ -f values.yaml --namespace kubernetes-eval --create-namespace
+```
+
+Pour mettre à jour l'application :
 
 ```bash
-git clone https://github.com/ClemLcs/Kubernetes_Eval.git
-cd gestion-produits
+helm upgrade gestion-des-produits ./ -f values.yaml -n  kubernetes-eval --create-namespace
 ```
-Placez un fichier .env à la racine du dossier `php/www` avec le contenu suivant :
 
-```ini
-DB_CONNECTION=mysql
-DB_HOST=localhost
-DB_PORT=3306
-DB_DATABASE=gestion_produits
-DB_USERNAME=user
-DB_PASSWORD=userpassword
-```
-Puis éxécuter la commande.
+Pour désinstaller l'application :
 ```bash
-cd docker/mysql
-docker compose up -d
+helm uninstall gestion-des-produits -n kubernetes-eval
 ```
-Connectez-vous à l'adresse http://localhost:8080/ pour accéder à l'application.
+# Vérification du déploiement
 
-### Version Postgres
-```bash
-git clone https://github.com/ClemLcs/Kubernetes_Eval.git
-cd gestion-produits
-```
-Placez un fichier .env à la racine du dossier `php/www` avec le contenu suivant :
-```ini
-DB_CONNECTION=pgsql
-DB_HOST=localhost
-DB_PORT=5432
-DB_DATABASE=gestion_produits
-DB_USERNAME=user
-DB_PASSWORD=userpassword
-```
-Puis éxécuter la commande.
-```bash
-cd docker/mysql
-docker compose up -d
-```
-Connectez-vous à l'adresse http://localhost:8080/ pour accéder à l'application.
+Vérifier que les pods sont en cours d'exécution :
 
-## Installation sans docker
-- Effectuer la commande : `composer install`
-- Modifier le fichier `php/www/.env` avec les bonnes valeurs
-- Copier les fichiers du dossier `www` dans un dossier accessible par le serveur Web.
-- Assurez vous que le dossier `uploads` est accessible en lecture et écriture par le serveur Web : `chmod 777 uploads`
-- Importez la base de données test à partir du dump SQL `database/gestion_produits-mysql.sql`.
-- Connectez vous à l'application avec l'url adaptée avec les informations suivantes :
-    - Login : `admin`
-    - Mot de passe : `password`
+```bash
+kubectl get pods -n kubernetes-eval
+```
+
+Vérifier les services exposés :
+```bash
+kubectl get svc -n kubernetes-eval
+```
+
+Vérifier les ressources Ingress :
+```bash
+kubectl get ingress -n kubernetes-eval
+```
+Connectez vous à l'application avec l'url adaptée avec les informations suivantes :
+- Login : `admin`
+- Mot de passe : `password`
 
 ## Fonctionnalités
 L'application permet de :
